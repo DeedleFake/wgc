@@ -11,6 +11,9 @@ fn matches(pat: &String, line: &str) -> bool {
                     if outer == ch {
                         c = pc.next();
                     }
+                    else if words::consonant(outer) {
+                        return false;
+                    }
                 },
 
                 None => {
@@ -25,11 +28,18 @@ fn matches(pat: &String, line: &str) -> bool {
     check(pat.chars(), line.chars()) || check(pat.chars().rev(), line.chars())
 }
 
+fn usage(args: Vec<String>) -> ! {
+    println!("Usage: {} <consonants>", args[0]);
+    std::process::exit(2);
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() != 2 {
-        println!("Usage: {} <letters>", args[0]);
-        std::process::exit(2);
+        usage(args);
+    }
+    if args[1].chars().any(|c| {!words::consonant(c)}) {
+        usage(args);
     }
 
     let words = words::WORDS.lines().map(|line| {

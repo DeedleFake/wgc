@@ -1,3 +1,9 @@
+const CONS: [char; 21] = ['q', 'w', 'r', 't', 'y', 'p', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'];
+
+pub fn consonant(c: char) -> bool {
+    CONS.iter().any(|&v| {c == v})
+}
+
 pub const WORDS: &'static str = "Aarhus
 Aaron
 Ababa
