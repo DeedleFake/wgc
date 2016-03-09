@@ -34,7 +34,7 @@ Example
 Credits
 -------
 
-Uses sample words file from Duke CS department.
+Uses [sample words file from Duke CS department][words].
 
 Disclaimer
 ----------
