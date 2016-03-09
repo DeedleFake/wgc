@@ -52,18 +52,33 @@ mod test {
 
     #[test]
     fn test_heapdrain() {
-        use super::{HeapPopDrain};
+        use super::{Length, HeapPopDrain};
         use std::collections::{BinaryHeap};
 
-        let mut heap = BinaryHeap::new();
-        heap.push(3);
-        heap.push(9);
-        heap.push(6);
+        {
+            let mut heap = BinaryHeap::new();
+            heap.push(3);
+            heap.push(9);
+            heap.push(6);
 
-        let mut drain = heap.pop_drain();
-        assert_eq!(drain.next(), Some(9));
-        assert_eq!(drain.next(), Some(6));
-        assert_eq!(drain.next(), Some(3));
-        assert_eq!(drain.next(), None);
+            let mut drain = heap.pop_drain();
+            assert_eq!(drain.next(), Some(9));
+            assert_eq!(drain.next(), Some(6));
+            assert_eq!(drain.next(), Some(3));
+            assert_eq!(drain.next(), None);
+        }
+
+        {
+            let mut heap = BinaryHeap::new();
+            heap.push(Length("short".to_string()));
+            heap.push(Length("notequal".to_string()));
+            heap.push(Length("longer".to_string()));
+
+            let mut drain = heap.pop_drain();
+            assert_eq!(drain.next(), Some(Length("notequal".to_string())));
+            assert_eq!(drain.next(), Some(Length("longer".to_string())));
+            assert_eq!(drain.next(), Some(Length("short".to_string())));
+            assert_eq!(drain.next(), None);
+        }
     }
 }
