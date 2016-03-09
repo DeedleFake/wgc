@@ -1,10 +1,9 @@
 mod words;
 
 mod sort;
-use sort::{HeapPopDrain};
 
 use std::env;
-use std::collections::{BinaryHeap};
+use std::collections::{BTreeSet};
 
 fn matches(pat: &String, line: &str) -> bool {
     fn check<P, L>(mut pc: P, lc: L) -> bool where P: Iterator<Item=char>, L: Iterator<Item=char> {
@@ -55,16 +54,16 @@ fn main() {
         matches(&args[1], line)
     });
 
-    let mut found = BinaryHeap::new();
+    let mut found = BTreeSet::new();
     for word in words {
-        found.push(sort::Length(word));
+        found.insert(sort::Length(word));
     }
     if found.len() == 0 {
         println!("No matches found.");
         return;
     }
 
-    for word in found.pop_drain() {
+    for word in found.iter().rev() {
         println!("{}", word.0);
     }
 }
