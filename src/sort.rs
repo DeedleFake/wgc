@@ -6,7 +6,13 @@ pub struct Length(pub String);
 
 impl Ord for Length {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.0.len().cmp(&other.0.len())
+        use std::cmp::Ordering::*;
+
+        let len = self.0.len().cmp(&other.0.len());
+        match len {
+            Equal => self.0.cmp(&other.0).reverse(),
+            _ => len,
+        }
     }
 }
 
