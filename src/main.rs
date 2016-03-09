@@ -1,7 +1,10 @@
 mod words;
 
+mod sort;
+use sort::{HeapPopDrain};
+
 use std::env;
-use std::collections::{BTreeSet};
+use std::collections::{BinaryHeap};
 
 fn matches(pat: &String, line: &str) -> bool {
     fn check<P, L>(mut pc: P, lc: L) -> bool where P: Iterator<Item=char>, L: Iterator<Item=char> {
@@ -37,15 +40,6 @@ fn usage(args: Vec<String>) -> ! {
     std::process::exit(2);
 }
 
-#[derive(Eq, PartialEq, PartialOrd)]
-struct Word(String);
-
-impl Ord for Word {
-    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        self.0.len().cmp(&other.0.len()).reverse()
-    }
-}
-
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() != 2 {
@@ -61,16 +55,16 @@ fn main() {
         matches(&args[1], line)
     });
 
-    let mut found = BTreeSet::new();
+    let mut found = BinaryHeap::new();
     for word in words {
-        found.insert(Word(word));
+        found.push(sort::Length(word));
     }
     if found.len() == 0 {
         println!("No matches found.");
         return;
     }
 
-    for word in found.iter() {
+    for word in found.pop_drain() {
         println!("{}", word.0);
     }
 }
