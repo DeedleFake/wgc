@@ -1,12 +1,18 @@
 use std::cmp::{Ordering};
 use std::collections::{BinaryHeap};
 
-#[derive(Eq, PartialEq, PartialOrd, Debug)]
+#[derive(Eq, PartialEq, Debug)]
 pub struct Length(pub String);
 
 impl Ord for Length {
     fn cmp(&self, other: &Self) -> Ordering {
         self.0.len().cmp(&other.0.len())
+    }
+}
+
+impl PartialOrd for Length {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
     }
 }
 
