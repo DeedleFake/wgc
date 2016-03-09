@@ -32,7 +32,10 @@ fn matches(pat: &String, line: &str) -> bool {
         false
     }
 
-    check(pat.chars(), line.chars()) || check(pat.chars().rev(), line.chars().rev())
+    (pat.len() <= line.len()) && (
+        check(pat.chars(), line.chars()) ||
+        check(pat.chars().rev(), line.chars().rev())
+    )
 }
 
 fn usage(args: Vec<String>) -> ! {
