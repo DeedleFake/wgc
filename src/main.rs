@@ -14,9 +14,6 @@ fn matches(pat: &String, line: &str) -> bool {
                 Some(ch) => {
                     if outer == ch {
                         c = pc.next();
-                        if c.is_none() {
-                            return true;
-                        }
                     }
                     else if words::consonant(outer) {
                         return false;
@@ -29,7 +26,7 @@ fn matches(pat: &String, line: &str) -> bool {
             }
         }
 
-        false
+        c.is_none()
     }
 
     (pat.len() <= line.len()) && (
