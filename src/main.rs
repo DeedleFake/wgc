@@ -44,14 +44,16 @@ fn main() {
     if args.len() != 2 {
         usage(args);
     }
-    if args[1].chars().any(|c| {!words::consonant(c)}) {
+
+    let cons = args[1].to_lowercase();
+    if cons.chars().any(|c| {!words::consonant(c)}) {
         usage(args);
     }
 
     let words = words::WORDS.lines().map(|line| {
         line.to_lowercase()
     }).filter(|line| {
-        matches(&args[1], line)
+        matches(&cons, line)
     });
 
     let mut found = BTreeSet::new();
