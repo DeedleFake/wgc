@@ -30,7 +30,7 @@ fn matches(pat: &String, line: &str) -> bool {
 
     (pat.len() <= line.len()) && (
         check(pat.chars(), line.chars()) ||
-        check(pat.chars().rev(), line.chars().rev())
+        check(pat.chars().rev(), line.chars())
     )
 }
 
